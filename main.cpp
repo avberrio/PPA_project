@@ -90,24 +90,26 @@ int main()
 //        
 //    }
     
-    for(int row=0+verticleImageBound;row<rows-verticleImageBound;row++){
-        
-        for(int col=0+horizontalImageBound;col<cols-horizontalImageBound;col++){
-            
-            float value=0.0;
-            
-            for(int kRow=0;kRow<kernalHeight;kRow++){
-                for(int kCol=0;kCol<kernalWidth;kCol++){
+    // Linear matrix
+    for (int i = 0; i < rows * cols; i ++)
+    {
+        int row = floor(i/cols);
+        int col = i % cols;
+        if (row >= verticleImageBound && row < rows - verticleImageBound && col >= horizontalImageBound && col < cols-horizontalImageBound)
+        {
+            float value = 0.0;
+            // Code Here
+            for(int kRow = 0; kRow < kernalHeight; kRow++)
+            {
+                for(int kCol = 0; kCol < kernalWidth; kCol++)
+                {
                     //multiply pixel value with corresponding gaussian kernal value
-                    float pixel=grayScaleImage.at<uchar>(kRow+row-verticleImageBound,kCol+col-horizontalImageBound)*kernalArray[kRow][kCol];
-                    value+=pixel;
+                    float pixel = grayScaleImage.at<uchar>(kRow + row - verticleImageBound, kCol + col - horizontalImageBound) * kernalArray[kRow][kCol];
+                    value += pixel;
                 }
             }
-            //assign new values to central point
             FinalImage.at<uchar>(row,col)=cvRound(value);
-            
         }
-        
     }
     
     //Genarate same GaussianBlur image using inbuilt openCv function
